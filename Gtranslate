@@ -1,0 +1,28 @@
+
+
+
+def Gtranslate(text):      #define Gtranslate function
+import re
+import urllib.request
+   
+   Gtext=text  
+
+    values={'hl':'zh-CN','ie':'UTF-8','text':Gtext,'langpair':"'en'|'zh-CN'"}    #html head
+ 
+    url='http://translate.google.cn/'     #google translation url
+ 
+    data = urllib.parse.urlencode(values).encode("utf-8")    #encode url
+
+    headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36'}    
+  
+    req = urllib.request.Request(url,data,headers)
+    response = urllib.request.urlopen(req)  
+  
+    html=response.read().decode()  
+   
+    p=re.compile(r"(?<=TRANSLATED_TEXT=).*?;")    
+    m=p.search(html)    
+    chineseText=m.group(0).strip(';')    
+    return chineseText;
+    
+ print(Gtranslate("hello world"))
